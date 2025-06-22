@@ -44,6 +44,19 @@
                     <input type="text" name="image_url" class="form-control" value="{{ old('image_url', $item->image_url) }}">
                 </div>
 
+                <div class="form-group">
+                    <label>カテゴリ</label>
+                    <select name="category_id" class="form-control">
+                        <option value="">選択してください</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $item->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-success">更新する</button>
                 <a href="{{ route('items.index') }}" class="btn btn-secondary">戻る</a>
             </form>

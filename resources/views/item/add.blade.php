@@ -41,6 +41,18 @@
                             <label for="image_url">URL</label>
                             <input type="text" class="form-control" id="image_url" name="image_url" placeholder="https">
                         </div>
+                        <div class="form-group">
+                            <label for="category_id">カテゴリ</label>
+                            <select name="category_id" id="category_id" class="form-control">
+                                <option value="">-- 選択してください --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">登録</button>
                     </div>

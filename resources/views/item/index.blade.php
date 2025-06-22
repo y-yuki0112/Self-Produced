@@ -12,6 +12,19 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">商品一覧</h3>
+
+                    {{-- 検索フォーム --}}
+                    <form method="GET" action="{{ route('items.index') }}" class="form-inline">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" name="keyword" class="form-control float-right" placeholder="商品名で検索"
+                                value="{{ request('keyword') }}">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i> 検索
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="card-tools">
                         <div class="input-group input-group-sm">
                             <div class="input-group-append">
