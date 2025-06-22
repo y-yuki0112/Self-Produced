@@ -30,6 +30,7 @@
                                 <th>詳細</th>
                                 <th>URL</th>
                                 <th>画像</th>
+                                <th>操作</th>  
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +42,18 @@
                                     <td>{{ $item->detail }}</td>
                                     <td>{{ $item->image_url }}</td>
                                     <td> <img src="{{ $item->image_url }}" alt="商品画像" style="max-height: 100px;"></td>
+                                     <td> 
+                                        {{-- 編集ボタン --}}
+                                        <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning btn-sm">編集</a>
+
+                                        {{-- 削除ボタン --}}
+                                        <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('本当に削除しますか？')">削除</button>
+                                        </form>
+                                      </td>
                             @endforeach
                         </tbody>
                     </table>

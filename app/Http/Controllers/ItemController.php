@@ -51,8 +51,50 @@ class ItemController extends Controller
             ]);
 
             return redirect('/items');
+
+            
         }
 
         return view('item.add');
+    }
+
+/**
+     * 商品編集画面を表示
+     */
+    public function edit($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('item.edit', compact('item'));
+    }
+
+    /**
+     * 商品を更新
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:100',
+        ]);
+
+        $item = Item::findOrFail($id);
+        $item->update([
+            'name' => $request->name,
+            'type' => $request->type,
+            'detail' => $request->detail,
+            'image_url' => $request->image_url,
+        ]);
+
+        return redirect('/items')->with('success', '商品を更新しました');
+    }
+
+    /**
+     * 商品を削除
+     */
+    public function destroy($id)
+    {
+        $item = Item::findOrFail($id);
+        $item->delete();
+
+        return redirect('/items')->with('success', '商品を削除しました');
     }
 }
