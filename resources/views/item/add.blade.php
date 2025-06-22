@@ -37,8 +37,10 @@
                             <label for="detail">詳細</label>
                             <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
                         </div>
-                    </div>
-
+                        <div class="form-group">
+                            <label for="image_url">URL</label>
+                            <input type="text" class="form-control" id="image_url" name="image_url" placeholder="https">
+                        </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">登録</button>
                     </div>

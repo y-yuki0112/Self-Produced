@@ -28,6 +28,8 @@
                                 <th>名前</th>
                                 <th>種別</th>
                                 <th>詳細</th>
+                                <th>URL</th>
+                                <th>画像</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +39,8 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
-                                </tr>
+                                    <td>{{ $item->image_url }}</td>
+                                    <td> <img src="{{ $item->image_url }}" alt="商品画像" style="max-height: 100px;"></td>
                             @endforeach
                         </tbody>
                     </table>

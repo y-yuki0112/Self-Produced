@@ -47,6 +47,7 @@ class ItemController extends Controller
                 'name' => $request->name,
                 'type' => $request->type,
                 'detail' => $request->detail,
+                'image_url'=>$request->image_url,
             ]);
 
             return redirect('/items');
