@@ -61,13 +61,14 @@ class ItemController extends Controller
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
+                //'category_id' => 'required|exists:categories,id',
             ]);
 
             // 商品登録
             Item::create([
                 'user_id' => Auth::user()->id,
                 'name' => $request->name,
-                'type' => $request->type,
+                //'type' => $request->type,
                 'detail' => $request->detail,
                 'image_url'=>$request->image_url,
                 'category_id' => $request->category_id,

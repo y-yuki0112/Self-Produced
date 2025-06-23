@@ -29,11 +29,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="種別">
-                        </div>
-
-                        <div class="form-group">
                             <label for="detail">詳細</label>
                             <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
                         </div>
@@ -43,15 +38,16 @@
                         </div>
                         <div class="form-group">
                             <label for="category_id">カテゴリ</label>
-                            <select name="category_id" id="category_id" class="form-control">
+                            <select name="category_name" id="category_name" class="form-control">
                                 <option value="">-- 選択してください --</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->name }}"
+                                        {{ old('category_name') == $category->name ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>
+
                         </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">登録</button>
