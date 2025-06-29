@@ -20,29 +20,29 @@
             @endif
 
             <div class="card card-primary">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">名前</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="名前">
                         </div>
-
                         <div class="form-group">
                             <label for="detail">詳細</label>
                             <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
                         </div>
+                        {{-- 画像ファイルアップロード --}}
                         <div class="form-group">
-                            <label for="image_url">URL</label>
-                            <input type="text" class="form-control" id="image_url" name="image_url" placeholder="https">
+                            <label for="cover_image">商品画像（任意）</label>
+                            <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*">
                         </div>
                         <div class="form-group">
                             <label for="category_id">カテゴリ</label>
-                            <select name="category_name" id="category_name" class="form-control">
+                            <select name="category_id" id="category_id" class="form-control">
                                 <option value="">-- 選択してください --</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->name }}"
-                                        {{ old('category_name') == $category->name ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
                                     </option>
                                 @endforeach

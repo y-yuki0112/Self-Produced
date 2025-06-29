@@ -29,10 +29,10 @@
                     <input type="text" name="name" class="form-control" value="{{ old('name', $item->name) }}">
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="type">種別</label>
                     <input type="text" name="type" class="form-control" value="{{ old('type', $item->type) }}">
-                </div>
+                </div>--->
 
                 <div class="form-group">
                     <label for="detail">詳細</label>

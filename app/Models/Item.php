@@ -14,9 +14,10 @@ class Item extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'type',
+        //'type',
         'detail',
         'image_url',
+        'category_id',
     ];
 
     /**
@@ -34,4 +35,12 @@ class Item extends Model
      */
     protected $casts = [
     ];
+
+    /**
+     * カテゴリとのリレーション
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

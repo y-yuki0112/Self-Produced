@@ -39,9 +39,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>名前</th>
-                                <th>種別</th>
                                 <th>詳細</th>
-                                <th>URL</th>
+                                <!-- <th>商品URL</th> -->
+                                <th>カテゴリ</th>
                                 <th>画像</th>
                                 <th>操作</th>  
                             </tr>
@@ -51,10 +51,16 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
-                                    <td>{{ $item->image_url }}</td>
-                                    <td> <img src="{{ $item->image_url }}" alt="商品画像" style="max-height: 100px;"></td>
+                                    <!-- <td>{{ $item->image_url }}</td> -->
+                                     <td>{{ $item->category->name ?? '未設定' }}</td>
+                                    <td>
+                                        @if ($item->image_url)
+                                            <img src="{{ $item->image_url }}" alt="商品画像" style="max-height: 150px;">
+                                        @else
+                                            <span class="text-muted">画像なし</span>
+                                        @endif
+                                    </td>
                                      <td> 
                                         {{-- 編集ボタン --}}
                                         <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning btn-sm">編集</a>
@@ -77,6 +83,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 @stop
 
 @section('js')

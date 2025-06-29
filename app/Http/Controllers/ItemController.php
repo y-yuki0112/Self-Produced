@@ -24,27 +24,25 @@ class ItemController extends Controller
      */
     public function index(Request $request)
 {
-    $query = Item::query();
+    $query = Item::query()
+        ->select('items.*', 'categories.name as category_name')
+        ->leftJoin('categories', 'items.category_id', '=', 'categories.id');
 
-    // 複数項目でのキーワード検索（名前・種別・詳細）
     if ($request->filled('keyword')) {
         $keyword = $request->input('keyword');
         $query->where(function ($q) use ($keyword) {
-            $q->where('name', 'like', '%' . $keyword . '%')
-              ->orWhere('type', 'like', '%' . $keyword . '%')
-              ->orWhere('detail', 'like', '%' . $keyword . '%');
+            $q->where('items.name', 'like', '%' . $keyword . '%')
+              ->orWhere('categories.name', 'like', '%' . $keyword . '%')
+              ->orWhere('items.detail', 'like', '%' . $keyword . '%');
         });
     }
 
-    // カテゴリIDが指定されていれば絞り込み
     if ($request->filled('category_id')) {
-        $query->where('category_id', $request->input('category_id'));
+        $query->where('items.category_id', $request->input('category_id'));
     }
 
-    // 商品一覧取得
     $items = $query->get();
 
-    //カテゴリ一覧を検索フォームに渡す
     $categories = \App\Models\Category::all();
 
     return view('item.index', compact('items', 'categories'));
@@ -53,34 +51,36 @@ class ItemController extends Controller
      * 商品登録
      */
     public function add(Request $request)
-    {
-        $categories = \App\Models\Category::all();
+{
+    $categories = \App\Models\Category::all();
 
-        // POSTリクエストのとき
-        if ($request->isMethod('post')) {
-            // バリデーション
-            $this->validate($request, [
-                'name' => 'required|max:100',
-                //'category_id' => 'required|exists:categories,id',
-            ]);
+    if ($request->isMethod('post')) {
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'cover_image' => 'nullable|image|max:2048', // 画像バリデーション
+        ]);
 
-            // 商品登録
-            Item::create([
-                'user_id' => Auth::user()->id,
-                'name' => $request->name,
-                //'type' => $request->type,
-                'detail' => $request->detail,
-                'image_url'=>$request->image_url,
-                'category_id' => $request->category_id,
-            ]);
+        $item = new Item();
+        $item->user_id = Auth::id();
+        $item->name = $request->name;
+        $item->detail = $request->detail;
+        $item->category_id = $request->category_id;
 
-            return redirect('/items');
-
-            
+        // 画像がアップロードされた場合
+        if ($request->hasFile('cover_image')) {
+            $imageData = file_get_contents($request->file('cover_image')->getRealPath());
+            $mimeType = $request->file('cover_image')->getMimeType();
+            $base64Image = base64_encode($imageData);
+            $item->image_url = 'data:' . $mimeType . ';base64,' . $base64Image;
         }
 
-        return view('item.add', compact('categories'));
+        $item->save();
+
+        return redirect('/items');
     }
+
+    return view('item.add', compact('categories'));
+}
 
 /**
      * 商品編集画面を表示
@@ -96,22 +96,29 @@ class ItemController extends Controller
      * 商品を更新
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required|max:100',
-        ]);
+{
+    $this->validate($request, [
+        'name' => 'required|max:100',
+        'cover_image' => 'nullable|image|max:5120', // 追加OK
+    ]);
 
-        $item = Item::findOrFail($id);
-        $item->update([
-            'name' => $request->name,
-            'type' => $request->type,
-            'detail' => $request->detail,
-            'image_url' => $request->image_url,
-            'category_id' => $request->category_id,
-        ]);
+    $item = Item::findOrFail($id);
+    $item->name = $request->name;
+    $item->detail = $request->detail;
+    $item->category_id = $request->category_id;
 
-        return redirect('/items')->with('success', '商品を更新しました');
+    if ($request->hasFile('cover_image')) {
+        $imageData = file_get_contents($request->file('cover_image')->getRealPath());
+        $mimeType = $request->file('cover_image')->getMimeType();
+        $base64Image = base64_encode($imageData);
+        $item->image_url = 'data:' . $mimeType . ';base64,' . $base64Image;
     }
+
+    $item->save();
+
+    return redirect('/items')->with('success', '商品を更新しました');
+}
+
 
     /**
      * 商品を削除
