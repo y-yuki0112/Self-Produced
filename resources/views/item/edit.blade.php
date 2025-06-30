@@ -20,7 +20,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('items.update', $item->id) }}" method="POST">
+            <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -39,9 +39,20 @@
                     <textarea name="detail" class="form-control">{{ old('detail', $item->detail) }}</textarea>
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="image_url">画像URL</label>
                     <input type="text" name="image_url" class="form-control" value="{{ old('image_url', $item->image_url) }}">
+                </div>--->
+
+                <div class="form-group">
+                    <label for="cover_image">商品画像（任意）</label>
+                    @if (!empty($item->image_url))
+                        <div>
+                            <p>現在の画像：</p>
+                            <img src="data:image/jpeg;base64,{{ $item->cover_image }}" alt="商品画像" width="200">
+                        </div>
+                    @endif
+                    <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/*">
                 </div>
 
                 <div class="form-group">
