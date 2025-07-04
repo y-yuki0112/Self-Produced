@@ -57,6 +57,7 @@ class ItemController extends Controller
     if ($request->isMethod('post')) {
         $this->validate($request, [
             'name' => 'required|max:100',
+            'detail' => 'nullable|string|max:500',  
             'cover_image' => 'nullable|image|max:2048', // 画像バリデーション
         ]);
 
@@ -99,6 +100,7 @@ class ItemController extends Controller
 {
     $this->validate($request, [
         'name' => 'required|max:100',
+        'detail' => 'nullable|string|max:500',
         'cover_image' => 'nullable|image|max:5120', // 追加OK
     ]);
 
