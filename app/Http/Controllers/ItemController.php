@@ -58,7 +58,7 @@ class ItemController extends Controller
         $this->validate($request, [
             'name' => 'required|max:100',
             'detail' => 'required|string|max:500',  // 文字列として最大500文字
-            'cover_image' => 'required|image|max:20480', // 画像バリデーション
+            'cover_image' => 'nullable|image|max:20480', // 画像バリデーション
         ]);
 
         $item = new Item();
@@ -101,7 +101,7 @@ class ItemController extends Controller
     $this->validate($request, [
         'name' => 'required|max:100',
         'detail' => 'required|string|max:500',// 文字列として最大500文字
-        'cover_image' => 'required|image|max:20480', // 追加OK
+        'cover_image' => 'nullable|image|max:20480', // 追加OK
     ]);
 
     $item = Item::findOrFail($id);
